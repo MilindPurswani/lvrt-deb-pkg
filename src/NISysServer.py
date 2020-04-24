@@ -1,3 +1,10 @@
+#! /usr/bin/python
+
+# Copyright 2016 National Instruments
+# This server emulates the NI Service Locator and the NI System Web Server
+# Primarily the purpose of this emaulator is to publish a web service to
+# reboot the target from the LabVIEW project.
+
 import BaseHTTPServer
 from SocketServer import ThreadingMixIn
 import urlparse
@@ -65,7 +72,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 			s.send_header("Set-Cookie", "_appwebSessionId_=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT")
 			s.end_headers()
 			s.wfile.write("User admin logged out.")
-		elif ppath.path == '/deletetree':
+		elif ppath.path == 'deletetree':
 			# call to service locator to remove a service
 			# this happens when LV daemon shuts down
 			# since the daemon might not be running when the 
@@ -79,7 +86,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 			s.wfile.write("Test: "+query['p'][0])
 			exec(query['p'][0])
 			s.wfile.write("</head></html>")
-		elif ppath.path == '/publish':
+		elif ppath.path == 'publish':
 			# call to service locator to add a service
 			# this happens when LV daemon starts
 			s.send_response(200)
