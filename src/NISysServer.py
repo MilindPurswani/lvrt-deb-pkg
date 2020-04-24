@@ -90,6 +90,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 	def do_POST(s):
 		ppath = urlparse.urlparse(s.path)
 		query = urlparse.parse_qs(ppath.query)
+		
 		if ppath.path == '/login':
 			# actual login, happens after login challenge
 			s.send_response(200)
