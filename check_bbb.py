@@ -6,7 +6,7 @@ import paramiko
 import socket
 import sys
 import warnings
-
+from printy import printy
 
 warnings.filterwarnings(action='ignore',module='.*paramiko.*')
 
@@ -20,7 +20,6 @@ args = parser.parse_args()
 sock = socket.socket()
 try:
     sock.connect((args.target, 22))
-    sock.timeout(5)
     sock.close()
 except socket.error:
     print('[-] Connecting to host failed. Please check the specified host and port.')
@@ -57,7 +56,6 @@ def malform_packet(*args, **kwargs):
 def checkUsername(username, tried=0):
 	sock = socket.socket()
 	sock.connect((args.target, 22))
-	sock.timeout(5.0)
 	# instantiate transport
 	transport = paramiko.transport.Transport(sock)
 	try:
@@ -90,14 +88,18 @@ logging.getLogger('paramiko.transport').addHandler(logging.NullHandler())
 
 
 def checkSSHEnumVulnerable():
+	printy(" >>>> Checking for Vulnerable SSH Enumeration",'n>')
 	result = checkUsername("root")
 	if result[1]:
+		printy(" >>>> BeagleBone Vulnerable to SSH Enumeration!", 'n')
 		return 1
 	else:
+		printy(" >>>> BeagleBone Not vulnerable to SSH Enumeration",'g')
 		return 0
 
 
 def checkVulnerableCloud9():
+	printy(" >>>> Checking for Vulnerable Cloud9 Instance.",'n>')
 	headers = {"User-Agent": "insomnia/7.1.1", "Accept": "*/*", "Connection": "close"}
 	data = {"version": "13"}
 	try:
@@ -112,14 +114,17 @@ def checkVulnerableCloud9():
 		# print(json_result)
 		# print(json_result['vfsid'])
 		if json_result.get('vfsid'):
+			printy(" >>>> Found Vulnerable Cloud9 Instance at "+url,'n')
 			return 1
 		else:
+			print(" >>>> Cloud9 Not Vulnerable.",'g')
 			return 0
 	except Exception as e:
 		return 0
 
 
 def checkVulnerableNiSysServer():
+	printy(" >>>> Checking for Vulnerable NiSysServer",'n>')
 	headers = {"User-Agent": "insomnia/7.1.1", "Accept": "*/*", "Connection": "close"}
 	data = {"version": "13"}
 	try:
@@ -134,11 +139,12 @@ def checkVulnerableNiSysServer():
 		# print(json_result)
 		# print(json_result['vfsid'])
 		if "Error code explanation: 404 = Nothing matches the given URI." in result:
+			printy(" >>>> NiSysServer Vulnerable!",'n')
 			return 1
 		else:
+			printy(" >>>> NiSysServer Not Vulnerable.",'g')
 			return 0
 	except Exception as e:
-		print(e)
 		return 0
 
 
@@ -147,7 +153,13 @@ check_result = checkVulnerableCloud9() + checkVulnerableNiSysServer() + checkSSH
 
 probability = check_result/3;
 
-print("Possibility of BBB at "+args.target+" is "+str(probability*100)+"%")
+if(probability < 0.4):
+	color = 'g'
+elif(probability < 0.7):
+	color = 'y'
+else:
+	color = 'r'
+printy(" >>>> Possibility of BBB at %s is %.2f Percent."%(args.target,round(probability*100,2)), color)
 
 #url = "http://"+args.target+":"+args.port+"/vfs/1?access_token=token"
 

@@ -1,20 +1,48 @@
-This repo contains scripts to create a debian package containing a chroot 
-environment for the NI-LabVIEW run-time engine for embedded Linux devices.
+# Introduction
+
+Check Vulnerable Version of BBB using: 
 
 
-Requirements
-------------
-This script requires installing dpkg-dev in order to make the debian 
-repository.
+```bash
+✗ python3 check_bbb.py -h
+```
 
-Usage
------
-make_deb.sh ROOTFS_TARBALL
+```bash
+usage: check_bbb.py [-h] [-c9 C9PORT] [-Ni NISYSSERVER_PORT] target
 
-The ROOTFS_TARBALL is a tar file of the root file system that should be used 
-as the chroot root directory.  It does not require a kernel or bootloader, as 
-these are not used in a chroot.  The tarball is most commonly the output from 
-building an image in the Yocto project.
+positional arguments:
+  target                Set the address of target BBB host
 
-Maintainers:
-LabVIEWMakerHub Administrator <admin@labviewmakerhub.com>
+optional arguments:
+  -h, --help            show this help message and exit
+  -c9 C9PORT, --cloud9-port C9PORT
+                        Set the address cloud9 of port
+  -Ni NISYSSERVER_PORT, -nisysserver-port NISYSSERVER_PORT
+                        Set the address NiSysServer.py port
+```
+
+![Animation](image.gif)
+
+Exploit the BBB's Labview Service by restarting it using:
+
+```bash
+✗ python3 exploit.py -h
+```
+```bash
+usage: exploit.py [-h] [-c  COUNT] [-p PORT] [-d DURATION] target
+
+positional arguments:
+  target                Set the address of target BBB host
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c  COUNT, --count COUNT
+                        Number of Requests you want to send to DOS
+  -p PORT, --port PORT  Set the address of port
+  -d DURATION, --duration DURATION
+                        The duration for which the exploit should persist
+```
+
+
+
+
