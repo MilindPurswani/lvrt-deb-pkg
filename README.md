@@ -75,7 +75,7 @@ optional arguments:
 
 ### Working
 
-![](/Users/ubuntu/Documents/ENPM809I/exploit/image2.gif)
+![](image2.gif)
 
 ## SSH User Enumeration
 
@@ -119,4 +119,5 @@ optional arguments:
 
 ### Working:
 
-![Image3](/Users/ubuntu/Documents/ENPM809I/exploit/image3.gif)
+![Image3](image3.gif)
+
