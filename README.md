@@ -4,7 +4,7 @@ This repository consists of the scripts that are used during the exploitation of
 
 ## check_bbb.py
 
-The `check_bbb.py` script is going to check for the presence of Beaglebone on network. It's as simple as providing an `IP Address` to it. Optionally, since the scipt uses a signature based detection, it also allows specifying Cloud9 port and NiSysServer port. If these addresses are not provided, the script will look for them on their default port.
+The `check_bbb.py` script is going to check for the presence of Beaglebone on network. It's as simple as providing an `IP Address` to it. Optionally, since the script uses a signature based detection, it also allows specifying Cloud9 port and NiSysServer port. If these addresses are not provided, the script will look for them on their default port.
 
 There are 3 Criterions that are utilized to check for the presence of a BBB:
 
